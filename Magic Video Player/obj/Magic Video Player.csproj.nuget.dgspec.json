@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Bucky\\source\\repos\\Magic Video Player\\Magic Video Player\\Magic Video Player.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Bucky\\source\\repos\\Magic Video Player\\Magic Video Player\\Magic Video Player.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Bucky\\source\\repos\\Magic Video Player\\Magic Video Player\\Magic Video Player.csproj",
+        "projectName": "Magic Video Player",
+        "projectPath": "C:\\Users\\Bucky\\source\\repos\\Magic Video Player\\Magic Video Player\\Magic Video Player.csproj",
+        "packagesPath": "C:\\Users\\Bucky\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Bucky\\source\\repos\\Magic Video Player\\Magic Video Player\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Bucky\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "uap10.0.17763"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "uap10.0.17763": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "uap10.0.17763": {
+          "dependencies": {
+            "Microsoft.NETCore.UniversalWindowsPlatform": {
+              "target": "Package",
+              "version": "[6.2.9, )"
+            },
+            "MyToolkit.Extended": {
+              "target": "Package",
+              "version": "[2.5.16, )"
+            },
+            "YoutubeExtractor": {
+              "target": "Package",
+              "version": "[0.10.11, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-arm": {
+          "#import": []
+        },
+        "win10-arm-aot": {
+          "#import": []
+        },
+        "win10-arm64-aot": {
+          "#import": []
+        },
+        "win10-x64": {
+          "#import": []
+        },
+        "win10-x64-aot": {
+          "#import": []
+        },
+        "win10-x86": {
+          "#import": []
+        },
+        "win10-x86-aot": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
