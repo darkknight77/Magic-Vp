@@ -49,3 +49,4 @@ C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\bin\x86\Debug\
 C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\bin\x86\Debug\MyToolkit.dll
 C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\bin\x86\Debug\MyToolkit.Extended.dll
 C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\obj\x86\Debug\MyToolkit.Extended.pri.xml
+C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\bin\x86\Debug\Assets\logo.png

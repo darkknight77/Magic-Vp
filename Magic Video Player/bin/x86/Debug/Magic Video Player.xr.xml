@@ -61,6 +61,7 @@
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.MediaPlayerElement">
       <RootProperty Name="AreTransportControlsEnabled" />
+      <RootEvent Name="DoubleTapped" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.MenuBar">
       <RootProperty Name="Items" />

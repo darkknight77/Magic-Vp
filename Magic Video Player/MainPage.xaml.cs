@@ -13,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using YoutubeExtractor;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -56,7 +57,38 @@ namespace Magic_Video_Player
             playlist.DataContext = ContentList;
 
         }
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var args = e.Parameter as Windows.ApplicationModel.Activation.IActivatedEventArgs;
+            if (args != null)
+            {
+                if (args.Kind == Windows.ApplicationModel.Activation.ActivationKind.File)
+                {
+                    var fileArgs = args as Windows.ApplicationModel.Activation.FileActivatedEventArgs;
+                    string strFilePath = fileArgs.Files[0].Path;
+                    var file = (StorageFile)fileArgs.Files[0];
+                    openMedia(file);
+                }
+            }
+        }
 
+        void openMedia(StorageFile file) {
+
+            MediaSource source = MediaSource.CreateFromStorageFile(file);
+
+            playbackItem = new MediaPlaybackItem(source);
+            mediaPlayerElement.Source = playbackItem;
+            mediaPlayerElement.AutoPlay = true;
+            if (isVideoType(file) || isAudioType(file))
+            {
+                AddItemsToListView(file);
+            }
+            else
+            {
+                Debug.WriteLine(file.Name + " cant be added. Type: " + file.ContentType);
+            }
+        }
 
         async private void AddSubtitle(object sender, RoutedEventArgs e)
         {
@@ -421,7 +453,12 @@ namespace Magic_Video_Player
 
         }
 
-       
+        private void FullScreenToggle(object sender, DoubleTappedRoutedEventArgs e)
+        {
+
+            mediaPlayerElement.IsFullWindow = !mediaPlayerElement.IsFullWindow;
+
+        }
     }
 
     public class listContent

@@ -73,6 +73,16 @@ namespace Magic_Video_Player
             }
         }
 
+        // On double click on file associated types this method will be invoked
+        protected override void OnFileActivated(FileActivatedEventArgs args)
+        {
+            base.OnFileActivated(args);
+            var rootFrame = new Frame();
+            rootFrame.Navigate(typeof(MainPage), args);
+            Window.Current.Content = rootFrame;
+            Window.Current.Activate();
+        }
+
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>

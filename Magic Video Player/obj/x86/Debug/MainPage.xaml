@@ -83,8 +83,7 @@
             </muxc:MenuBar>
         </StackPanel>
         <Grid  Grid.Column="0" Grid.Row="1">
-            <MediaPlayerElement x:ConnectionId='5' Grid.Column="0" Grid.Row="1" x:Name="mediaPlayerElement" AreTransportControlsEnabled="True"  />
-
+            <MediaPlayerElement x:ConnectionId='5'  Grid.Column="0" Grid.Row="1" x:Name="mediaPlayerElement" AreTransportControlsEnabled="True"                                  />
         </Grid>
         <ScrollViewer x:ConnectionId='2' Grid.Column="1" Grid.Row="1" BorderBrush="BlueViolet" BorderThickness="5" AllowDrop="True"                                                              
    >

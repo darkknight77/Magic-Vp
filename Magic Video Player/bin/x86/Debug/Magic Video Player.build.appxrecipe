@@ -49,8 +49,8 @@
     <AppxPackagedFile Include="C:\Users\Bucky\.nuget\packages\mytoolkit.extended\2.5.16\lib\uap10.0\MyToolkit.Extended\MyToolkit.Extended.xr.xml">
       <PackagePath>MyToolkit.Extended\MyToolkit.Extended.xr.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\Properties\Default.rd.xml">
-      <PackagePath>Properties\Default.rd.xml</PackagePath>
+    <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\Assets\logo.png">
+      <PackagePath>Assets\logo.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
@@ -78,6 +78,9 @@
     <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\Properties\Default.rd.xml">
+      <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bucky\source\repos\Magic Video Player\Magic Video Player\bin\x86\Debug\Magic Video Player.xr.xml">
       <PackagePath>Magic Video Player.xr.xml</PackagePath>

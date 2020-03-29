@@ -83,8 +83,7 @@
             </muxc:MenuBar>
         </StackPanel>
         <Grid  Grid.Column="0" Grid.Row="1">
-            <MediaPlayerElement Grid.Column="0" Grid.Row="1" x:Name="mediaPlayerElement" AreTransportControlsEnabled="True"  />
-
+            <MediaPlayerElement  Grid.Column="0" Grid.Row="1" x:Name="mediaPlayerElement" AreTransportControlsEnabled="True" DoubleTapped="FullScreenToggle"  />
         </Grid>
         <ScrollViewer Grid.Column="1" Grid.Row="1" BorderBrush="BlueViolet" BorderThickness="5" AllowDrop="True" Drop="playlist_Drop" DragOver="playlist_container_DragOver"  
    >
