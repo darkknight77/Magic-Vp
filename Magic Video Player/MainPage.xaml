@@ -43,7 +43,7 @@
                             <KeyboardAccelerator Modifiers="Control" Key="U"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Add Subtitle" Click="AddSubtitle">
+                    <MenuFlyoutItem Text="Add Subtitle" Click="openSubtitle_Click">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="T"/>
                         </MenuFlyoutItem.KeyboardAccelerators>

@@ -9,6 +9,7 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,10 +56,11 @@ namespace Magic_Video_Player
             //files = playlist;
             fileData = new Dictionary<String, StorageFile>();
             playlist.DataContext = ContentList;
-
+            
         }
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
             base.OnNavigatedTo(e);
             var args = e.Parameter as Windows.ApplicationModel.Activation.IActivatedEventArgs;
             if (args != null)
@@ -67,7 +69,9 @@ namespace Magic_Video_Player
                 {
                     var fileArgs = args as Windows.ApplicationModel.Activation.FileActivatedEventArgs;
                     string strFilePath = fileArgs.Files[0].Path;
+                    Debug.WriteLine(strFilePath);
                     var file = (StorageFile)fileArgs.Files[0];
+                    Debug.WriteLine(file.Path);
                     openMedia(file);
                 }
             }
@@ -80,6 +84,8 @@ namespace Magic_Video_Player
             playbackItem = new MediaPlaybackItem(source);
             mediaPlayerElement.Source = playbackItem;
             mediaPlayerElement.AutoPlay = true;
+
+
             if (isVideoType(file) || isAudioType(file))
             {
                 AddItemsToListView(file);
@@ -90,14 +96,13 @@ namespace Magic_Video_Player
             }
         }
 
-        async private void AddSubtitle(object sender, RoutedEventArgs e)
+        async private void openSubtitle_Click(object sender, RoutedEventArgs e)
         {
-            await addSubtitles(subtitleType);
-
+            await openSubtitlePicker(subtitleType);
 
         }
 
-        async private System.Threading.Tasks.Task addSubtitles(String[] arr)
+        async private System.Threading.Tasks.Task openSubtitlePicker(String[] arr)
         {
             var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
 
@@ -108,32 +113,11 @@ namespace Magic_Video_Player
 
             var pickedfiles = await openPicker.PickMultipleFilesAsync();
 
-
             if (pickedfiles.Count > 0)
             {
                 foreach (Windows.Storage.StorageFile file in pickedfiles)
                 {
-                    if (file.Name.EndsWith(".srt") || file.Name.EndsWith(".vtt"))
-                    {
-                        Debug.WriteLine(file.Name);
-                       var ttsEnUri = new Uri(file.Path);
-                        var ttsEn = TimedTextSource.CreateFromUri(ttsEnUri);
-                        Debug.WriteLine(ttsEn);
-                        Debug.WriteLine(file.ContentType);
-                        ttsMap[ttsEn] = ttsEnUri;
-                        //  var source = MediaSource.CreateFromUri(rootPage.UncaptionedMediaUri);
-                        //var source = MediaSource.CreateFromStorageFile(file);
-                        ttsEn.Resolved += TtsEn_Resolved;
-                        playbackItem.Source.ExternalTimedTextSources.Add(ttsEn);
-                        playbackItem.TimedMetadataTracksChanged += (item, args) =>
-                        {
-                            playbackItem.TimedMetadataTracks.SetPresentationMode(0, TimedMetadataTrackPresentationMode.PlatformPresented);
-                        };
-                    }
-                    else
-                    {
-                        Debug.WriteLine(file.Name + " cant be added. Type: " + file.ContentType);
-                    }
+                    AddSubtitle(file);
 
                 }
 
@@ -141,6 +125,7 @@ namespace Magic_Video_Player
 
         }
 
+       
         private void TtsEn_Resolved(TimedTextSource sender, TimedTextSourceResolveResultEventArgs args)
         {
             var ttsUri = ttsMap[sender];
@@ -150,7 +135,7 @@ namespace Magic_Video_Player
             {
                 var ignoreAwaitWarning = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                        //LoggerControl.Log("Error resolving track " + ttsUri + " due to error " + args.Error.ErrorCode, LogViewLoggingLevel.Error);
+                        Debug.WriteLine("Error resolving track " + ttsUri + " due to error " +args.Error +  args.Error.ErrorCode +args.Error.ExtendedError);
                     });
                 return;
             }
@@ -239,6 +224,7 @@ namespace Magic_Video_Player
         }
         async private System.Threading.Tasks.Task getMultiFile(String[] arr)
         {
+            
             var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
 
             foreach(string type in arr)
@@ -255,6 +241,8 @@ namespace Magic_Video_Player
                 {
                     if (isVideoType(file) || isAudioType(file))
                     {
+                       
+                       
                         AddItemsToListView(file);
                     }
                     else
@@ -263,13 +251,59 @@ namespace Magic_Video_Player
                     }
 
                 }
-                mediaPlayer.Source = MediaSource.CreateFromStorageFile(pickedfiles[0]);
-               
+                MediaSource source = MediaSource.CreateFromStorageFile(pickedfiles[0]);
+
+                playbackItem = new MediaPlaybackItem(source);
+                mediaPlayerElement.Source = playbackItem;
+                mediaPlayerElement.AutoPlay = true;
+
+                //Add subs automatically if matching subs present in the same directory
+                getSubtitle(pickedfiles[0]);
+
 
 
             }
         }
-       private Boolean isVideoType(StorageFile file) {
+
+        private async void getSubtitle(StorageFile file)
+        {
+            StorageFolder parentFolder = await file.GetParentAsync();
+            Windows.Storage.AccessCache.StorageApplicationPermissions.
+       FutureAccessList.AddOrReplace("PickedFolder", parentFolder);
+            IReadOnlyList<StorageFile> sortedItems = await parentFolder.GetFilesAsync();
+            foreach (Windows.Storage.StorageFile subtitlefile in sortedItems)
+            {
+                Debug.WriteLine(subtitlefile.DisplayName);
+                Debug.WriteLine(file.DisplayName + ".srt");
+                Debug.WriteLine(subtitlefile.Name.Equals(file.DisplayName + ".srt"));
+                if (subtitlefile.Name.Equals( file.DisplayName + ".srt")) {
+                    Debug.WriteLine("Got a srt match. Trying to add sub to playback");
+                    //IRandomAccessStream strSource = await subtitlefile.OpenReadAsync();
+                    AddSubtitle(subtitlefile);
+                }
+             }
+        }
+
+        private async void AddSubtitle(StorageFile file)
+        {
+            IRandomAccessStream strSource = await file.OpenReadAsync();
+            var ttsUri = new Uri(file.Path);
+            var ttsPicked = TimedTextSource.CreateFromStream(strSource);
+            ttsMap[ttsPicked] = ttsUri;
+            ttsPicked.Resolved += TtsEn_Resolved;
+            playbackItem.Source.ExternalTimedTextSources.Add(ttsPicked);
+            // Present the first track
+            playbackItem.TimedMetadataTracksChanged += (item, args) =>
+            {
+                Debug.WriteLine($"TimedMetadataTracksChanged, Number of tracks: {item.TimedMetadataTracks.Count}");
+                uint changedTrackIndex = args.Index;
+                TimedMetadataTrack changedTrack = playbackItem.TimedMetadataTracks[(int)changedTrackIndex];
+                playbackItem.TimedMetadataTracks.SetPresentationMode(changedTrackIndex, TimedMetadataTrackPresentationMode.PlatformPresented);
+            };
+
+        }
+
+        private Boolean isVideoType(StorageFile file) {
 
             
             foreach (String type in videoType) {
