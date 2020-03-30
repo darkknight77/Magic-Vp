@@ -129,7 +129,7 @@ namespace Magic_Video_Player
         private void TtsEn_Resolved(TimedTextSource sender, TimedTextSourceResolveResultEventArgs args)
         {
             var ttsUri = ttsMap[sender];
-
+            Debug.WriteLine($"{ttsUri} ; {ttsUri.AbsoluteUri}  {ttsUri.ToString()} ");
             // Handle errors
             if (args.Error != null)
             {
@@ -143,12 +143,20 @@ namespace Magic_Video_Player
             // Update label manually since the external SRT does not contain it
             var ttsUriString = ttsUri.AbsoluteUri;
             if (ttsUriString.Contains("_en"))
+            {
+                Debug.WriteLine("Label : english");
                 args.Tracks[0].Label = "English";
+            }
             else if (ttsUriString.Contains("_pt"))
+            {
+                Debug.WriteLine("Label : portugese");
                 args.Tracks[0].Label = "Portuguese";
+            }
             else if (ttsUriString.Contains("_sv"))
+            {
+                Debug.WriteLine("Label : swedish");
                 args.Tracks[0].Label = "Swedish";
-        
+            }
 
 
     
@@ -276,7 +284,7 @@ namespace Magic_Video_Player
                 Debug.WriteLine(subtitlefile.DisplayName);
                 Debug.WriteLine(file.DisplayName + ".srt");
                 Debug.WriteLine(subtitlefile.Name.Equals(file.DisplayName + ".srt"));
-                if (subtitlefile.Name.Equals( file.DisplayName + ".srt")) {
+                if (subtitlefile.Name.Contains( file.DisplayName) && (subtitlefile.Name.EndsWith(".srt") || subtitlefile.Name.EndsWith(".vtt"))) {
                     Debug.WriteLine("Got a srt match. Trying to add sub to playback");
                     //IRandomAccessStream strSource = await subtitlefile.OpenReadAsync();
                     AddSubtitle(subtitlefile);
@@ -298,7 +306,8 @@ namespace Magic_Video_Player
                 Debug.WriteLine($"TimedMetadataTracksChanged, Number of tracks: {item.TimedMetadataTracks.Count}");
                 uint changedTrackIndex = args.Index;
                 TimedMetadataTrack changedTrack = playbackItem.TimedMetadataTracks[(int)changedTrackIndex];
-                playbackItem.TimedMetadataTracks.SetPresentationMode(changedTrackIndex, TimedMetadataTrackPresentationMode.PlatformPresented);
+              // keeping 0 as index in below line will make the first subtitle that was found to be the activated on playback 
+                playbackItem.TimedMetadataTracks.SetPresentationMode(0, TimedMetadataTrackPresentationMode.PlatformPresented);
             };
 
         }
