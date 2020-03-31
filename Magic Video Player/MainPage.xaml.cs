@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -284,7 +285,7 @@ namespace Magic_Video_Player
                 Debug.WriteLine(subtitlefile.DisplayName);
                 Debug.WriteLine(file.DisplayName + ".srt");
                 Debug.WriteLine(subtitlefile.Name.Equals(file.DisplayName + ".srt"));
-                if (subtitlefile.Name.Contains( file.DisplayName) && (subtitlefile.Name.EndsWith(".srt") || subtitlefile.Name.EndsWith(".vtt"))) {
+                if (subtitlefile.Name.Contains( file.DisplayName) && (Path.GetExtension(subtitlefile.Path).Equals(".srt") || Path.GetExtension(subtitlefile.Path).Equals(".vtt"))  ) {
                     Debug.WriteLine("Got a srt match. Trying to add sub to playback");
                     //IRandomAccessStream strSource = await subtitlefile.OpenReadAsync();
                     AddSubtitle(subtitlefile);
