@@ -105,9 +105,15 @@
 
                     </SplitView.Pane>
                     <SplitView.Content>
-                        <MediaPlayerElement RelativePanel.Below="_Menu"  x:Name="mediaPlayerElement" AreTransportControlsEnabled="True" DoubleTapped="FullScreenToggle"  />
+                        <RelativePanel >
+                        <MediaPlayerElement   x:Name="mediaPlayerElement" AreTransportControlsEnabled="True" DoubleTapped="FullScreenToggle"  />
+                        <Button x:Name="skipCue" Click="skipCue_Click" RelativePanel.AlignBottomWithPanel="True" Width="200" Height="50">Skip</Button>
+                            <Button x:Name="ForwardCue" Click="ForwardCue_Click" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Width="200" Height="50">Forward</Button>
+
+                        </RelativePanel>
                     </SplitView.Content>
                 </SplitView>
+                
             </RelativePanel>
         </RelativePanel>
 

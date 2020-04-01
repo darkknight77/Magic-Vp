@@ -38,14 +38,14 @@ namespace Magic_Video_Player
        , "video/quicktime", "video/x-mpeg", "video/x-mpeg2a"
        , "video/x-ms-asf", "video/x-ms-asf-plugin", "video/x-ms-wm"
        , "video/x-ms-wmv", "video/x-ms-wmx", "video/x-ms-wvx","video/vnd.dlna.mpeg-tts"
-       , "video/x-msvideo"  };
+       , "video/x-msvideo", "video/mp2t"  };
 
         String[] audioType = { "audio/mp3", "audio/mp4", "audio/aiff", "audio/basic", "audio/mid", "audio/midi"
         , "audio/mpeg", "audio/mpegurl", "audio/mpg", "audio/wav"
         , "audio/x-aiff", "audio/x-mid", "audio/x-midi", "audio/x-mp3"
         , "audio/x-mpeg", "audio/x-mpegurl" , "audio/x-mpg", "audio/x-ms-wax"
         , "audio/x-ms-wma", "audio/x-wav" };
-        String[] videoAudioTypeFilter = { ".wmv", ".mp4", ".wma", ".mp3", ".mkv", ".m4a" };
+        String[] videoAudioTypeFilter = { ".wmv", ".mp4", ".wma", ".mp3", ".mkv", ".m4a", ".ts", ".avi" };
         String[] subtitleType = { ".srt", ".vtt" };
         public MainPage()
         {
@@ -311,8 +311,65 @@ namespace Magic_Video_Player
                 TimedMetadataTrack changedTrack = playbackItem.TimedMetadataTracks[(int)changedTrackIndex];
               // keeping 0 as index in below line will make the first subtitle that was found to be the activated on playback 
                 playbackItem.TimedMetadataTracks.SetPresentationMode(0, TimedMetadataTrackPresentationMode.PlatformPresented);
+                var activeCues = playbackItem.TimedMetadataTracks[0].ActiveCues;
+                var itr = activeCues.GetEnumerator();
+
+                while (itr.MoveNext())
+                {
+                    Debug.WriteLine("current : " + itr.Current);
+
+                }
+                playbackItem.TimedMetadataTracks[0].CueEntered += TimedText_CueEntered;
+                playbackItem.TimedMetadataTracks[0].CueExited += TimedText_CueExited;
+
             };
 
+        }
+
+        TimeSpan start = TimeSpan.Zero;
+        
+
+        private void TimedText_CueEntered(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            Debug.WriteLine("Cue Entered");
+            Debug.WriteLine("Cue start time was  "+args.Cue.StartTime  + " " + args.Cue.Duration);
+            start += args.Cue.StartTime;
+            args.Cue.StartTime = start;
+            Debug.WriteLine("Cue start time is " + args.Cue.StartTime + " " + args.Cue.Duration);
+
+        }
+        private void TimedText_CueExited(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            Debug.WriteLine("Cue Exited");
+        }
+
+        private void skipCue_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine($"Skipping 10 sec ***************");
+            var itr = playbackItem.TimedMetadataTracks[0].ActiveCues.GetEnumerator();
+            while (itr.MoveNext())
+            {
+                Debug.WriteLine($"Current cue StratTime before : {itr.Current.StartTime}");
+                start -= TimeSpan.FromMilliseconds(500);
+                
+              Debug.WriteLine($"Current cue StratTime After : {start}");
+                Debug.WriteLine($"***************");
+            }
+        }
+
+        private void ForwardCue_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine($"Forward 10 sec ***************");
+
+            var itr = playbackItem.TimedMetadataTracks[0].ActiveCues.GetEnumerator();
+            while (itr.MoveNext())
+            {
+                Debug.WriteLine($"Current cue StratTime before : {itr.Current.StartTime}");
+
+                start += TimeSpan.FromMilliseconds(500);
+                Debug.WriteLine($"Current cue StratTime after : {start}");
+                Debug.WriteLine($"***************");
+            }
         }
 
         private Boolean isVideoType(StorageFile file) {
@@ -510,12 +567,15 @@ namespace Magic_Video_Player
         {
             _MySplitView.IsPaneOpen = !_MySplitView.IsPaneOpen;
         }
+
+       
     }
 
     public class listContent
     {
         public string name { get; set; }
-        public String duration { get; set; }
+        public string duration { get; set; }
+        
         //Path is necessary for playing items from playlist on double click
         //public String Path { get; set; }
     }

@@ -12,34 +12,34 @@
         <RelativePanel >
             <muxc:MenuBar x:ConnectionId='2' Name="_Menu">
                 <muxc:MenuBarItem Title="File">
-                    <MenuFlyoutItem x:ConnectionId='8' Text="Open File(s)..."                      >
+                    <MenuFlyoutItem x:ConnectionId='10' Text="Open File(s)..."                      >
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="O"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSubItem Text="Open...">
-                        <MenuFlyoutItem x:ConnectionId='12' Text="Open File(s)..."                      >
+                        <MenuFlyoutItem x:ConnectionId='14' Text="Open File(s)..."                      >
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Control" Key="O"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:ConnectionId='13' Text="Open Folder"                   >
+                        <MenuFlyoutItem x:ConnectionId='15' Text="Open Folder"                   >
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Shift" Key="F"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyoutSubItem>
-                    <MenuFlyoutItem x:ConnectionId='9' Text="Open URL"                >
+                    <MenuFlyoutItem x:ConnectionId='11' Text="Open URL"                >
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="U"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:ConnectionId='10' Text="Add Subtitle"                           >
+                    <MenuFlyoutItem x:ConnectionId='12' Text="Add Subtitle"                           >
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="T"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:ConnectionId='11' Text="Toggle Playlist"                             >
+                    <MenuFlyoutItem x:ConnectionId='13' Text="Toggle Playlist"                             >
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="T"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
@@ -105,9 +105,15 @@
 
                     </SplitView.Pane>
                     <SplitView.Content>
-                        <MediaPlayerElement x:ConnectionId='7' RelativePanel.Below="_Menu"  x:Name="mediaPlayerElement" AreTransportControlsEnabled="True"                                  />
+                        <RelativePanel >
+                        <MediaPlayerElement x:ConnectionId='7'   x:Name="mediaPlayerElement" AreTransportControlsEnabled="True"                                  />
+                        <Button x:ConnectionId='8' x:Name="skipCue"                       RelativePanel.AlignBottomWithPanel="True" Width="200" Height="50">Skip</Button>
+                            <Button x:ConnectionId='9' x:Name="ForwardCue"                          RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Width="200" Height="50">Forward</Button>
+
+                        </RelativePanel>
                     </SplitView.Content>
                 </SplitView>
+                
             </RelativePanel>
         </RelativePanel>
 

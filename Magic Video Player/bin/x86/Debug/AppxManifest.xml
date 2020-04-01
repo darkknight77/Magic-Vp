@@ -35,6 +35,7 @@
               <uap:FileType ContentType="video/mpeg-4">.mp4</uap:FileType>
               <uap:FileType ContentType="video/x-matroska">.mkv</uap:FileType>
               <uap:FileType ContentType="audio/mp3">.mp3</uap:FileType>
+              <uap:FileType ContentType="video/mp2t">.ts</uap:FileType>
             </uap:SupportedFileTypes>
             <uap:DisplayName>Magic Video Player</uap:DisplayName>
             <uap:Logo>Assets\logo.png</uap:Logo>
