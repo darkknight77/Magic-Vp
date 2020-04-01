@@ -9,17 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="0.5*" />
-        </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal"  Grid.Column="0"  Grid.Row="0" >
-            <muxc:MenuBar>
+        <RelativePanel >
+            <muxc:MenuBar Name="_Menu">
                 <muxc:MenuBarItem Title="File">
                     <MenuFlyoutItem Text="Open File(s)..." Click="PickMultiFile">
                         <MenuFlyoutItem.KeyboardAccelerators>
@@ -44,6 +35,11 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem Text="Add Subtitle" Click="openSubtitle_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="T"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Toggle Playlist" Click="playlistToggle_Click">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="T"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
@@ -81,32 +77,40 @@
                     </MenuFlyoutItem>
                 </muxc:MenuBarItem>
             </muxc:MenuBar>
-        </StackPanel>
-        <Grid  Grid.Column="0" Grid.Row="1">
-            <MediaPlayerElement  Grid.Column="0" Grid.Row="1" x:Name="mediaPlayerElement" AreTransportControlsEnabled="True" DoubleTapped="FullScreenToggle"  />
-        </Grid>
-        <ScrollViewer Grid.Column="1" Grid.Row="1" BorderBrush="BlueViolet" BorderThickness="5" AllowDrop="True" Drop="playlist_Drop" DragOver="playlist_container_DragOver"  
+            <RelativePanel RelativePanel.Below="_Menu">
+                <SplitView x:Name="_MySplitView" DisplayMode="Inline" PanePlacement="Right">
+                    <SplitView.Pane>
+                        <ScrollViewer RelativePanel.RightOf="mediaPlayerElement" x:Name="_scroll" Grid.Column="1" Grid.Row="1" BorderBrush="BlueViolet" BorderThickness="5" AllowDrop="True" Drop="playlist_Drop" DragOver="playlist_container_DragOver"  
    >
-            <StackPanel Grid.Column="1" Grid.Row="1">
-                <ListView  BorderBrush="Red" BorderThickness="5" HorizontalContentAlignment="Stretch"  x:Name="playlist" ItemsSource="{Binding}" IsDoubleTapEnabled="True" DoubleTapped="playlist_DoubleTapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"  />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                
-                                
-                                <TextBlock Text="{Binding name}" Grid.Column="0"   Padding="0,0,5,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"  />
-                                <TextBlock Text="{Binding duration}" Grid.Column="1" Padding="0,0,10,0" TextWrapping="NoWrap" TextAlignment="End" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    
-                </ListView>
-            </StackPanel>
-        </ScrollViewer>
+                            <StackPanel  >
+                                <ListView  BorderBrush="Red" BorderThickness="5" HorizontalContentAlignment="Stretch"  x:Name="playlist" ItemsSource="{Binding}" IsDoubleTapEnabled="True" DoubleTapped="playlist_DoubleTapped">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="200"  />
+                                                    <ColumnDefinition Width="100" />
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Text="{Binding name}" Grid.Column="0"   Padding="0,0,5,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"  />
+                                                <TextBlock Text="{Binding duration}" Grid.Column="1" Padding="0,0,10,0" TextWrapping="NoWrap" TextAlignment="End" HorizontalAlignment="Right"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+
+                                </ListView>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                    </SplitView.Pane>
+                    <SplitView.Content>
+                        <MediaPlayerElement RelativePanel.Below="_Menu"  x:Name="mediaPlayerElement" AreTransportControlsEnabled="True" DoubleTapped="FullScreenToggle"  />
+                    </SplitView.Content>
+                </SplitView>
+            </RelativePanel>
+        </RelativePanel>
+
 
 
 

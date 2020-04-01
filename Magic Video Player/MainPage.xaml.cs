@@ -267,7 +267,7 @@ namespace Magic_Video_Player
                 mediaPlayerElement.AutoPlay = true;
 
                 //Add subs automatically if matching subs present in the same directory
-                getSubtitle(pickedfiles[0]);
+               // getSubtitle(pickedfiles[0]);
 
 
 
@@ -276,9 +276,11 @@ namespace Magic_Video_Player
 
         private async void getSubtitle(StorageFile file)
         {
+            //var fPath = Path.GetDirectoryName(file.Path);
+           // var parentFolder = await  StorageFolder.GetFolderFromPathAsync(fPath);
             StorageFolder parentFolder = await file.GetParentAsync();
             Windows.Storage.AccessCache.StorageApplicationPermissions.
-       FutureAccessList.AddOrReplace("PickedFolder", parentFolder);
+        FutureAccessList.AddOrReplace("PickedFolder", parentFolder);
             IReadOnlyList<StorageFile> sortedItems = await parentFolder.GetFilesAsync();
             foreach (Windows.Storage.StorageFile subtitlefile in sortedItems)
             {
@@ -503,11 +505,18 @@ namespace Magic_Video_Player
             mediaPlayerElement.IsFullWindow = !mediaPlayerElement.IsFullWindow;
 
         }
+
+        private void playlistToggle_Click(object sender, RoutedEventArgs e)
+        {
+            _MySplitView.IsPaneOpen = !_MySplitView.IsPaneOpen;
+        }
     }
 
     public class listContent
     {
         public string name { get; set; }
         public String duration { get; set; }
+        //Path is necessary for playing items from playlist on double click
+        //public String Path { get; set; }
     }
 }
